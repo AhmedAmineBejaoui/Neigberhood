@@ -54,7 +54,7 @@ export class PrismaPostRepository implements PostRepository {
     const nextCursor = hasMore ? posts[posts.length - 2]?.id : undefined;
 
     return {
-      posts: actualPosts.map((post) => ({
+      posts: actualPosts.map((post: any) => ({
         id: post.id,
         communityId: post.communityId,
         authorId: post.authorId,
@@ -138,7 +138,7 @@ export class PrismaPostRepository implements PostRepository {
       orderBy: { createdAt: 'desc' },
     });
 
-    return posts.map((post) => ({
+    return posts.map((post: any) => ({
       id: post.id,
       communityId: post.communityId,
       authorId: post.authorId,
@@ -167,7 +167,7 @@ export class PrismaPostRepository implements PostRepository {
       orderBy: { createdAt: 'desc' },
     });
 
-    return posts.map((post) => ({
+    return posts.map((post: any) => ({
       id: post.id,
       communityId: post.communityId,
       authorId: post.authorId,

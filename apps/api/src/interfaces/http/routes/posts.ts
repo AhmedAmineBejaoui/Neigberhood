@@ -1,17 +1,17 @@
 import { Router } from 'express';
 import { requireAuth } from '../middlewares/auth';
 import { validate } from '../middlewares/validation';
-import { 
-  CreatePostSchema, 
-  UpdatePostSchema, 
+import {
+  CreatePostSchema,
+  UpdatePostSchema,
   CreateCommentSchema,
   VoteSchema,
   ServiceUpdateSchema,
-  ListingUpdateSchema
-} from '@/types/schemas/post';
+  ListingUpdateSchema,
+} from '@neighborhood-hub/types';
 import { PostController } from '../controllers/PostController';
 
-const router = Router();
+const router: Router = Router();
 const postController = new PostController();
 
 // Get posts with filters

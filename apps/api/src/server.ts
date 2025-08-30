@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Express } from "express";
 import cors from "cors";
 import helmet from "helmet";
 import pino from "pino";
@@ -13,7 +13,7 @@ import { uploadRoutes } from "./interfaces/http/routes/uploads";
 
 const logger = pino({ level: config.logLevel });
 
-const app = express();
+const app: Express = express();
 
 // Middlewares
 app.use(helmet());

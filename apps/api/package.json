@@ -27,7 +27,9 @@
     "pino-http": "^9.0.0",
     "rate-limiter-flexible": "^7.2.0",
     "redis": "^4.6.10",
-    "zod": "^3.22.4"
+    "zod": "^3.22.4",
+    "@aws-sdk/client-s3": "^3.879.0",
+    "@aws-sdk/s3-request-presigner": "^3.879.0"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
