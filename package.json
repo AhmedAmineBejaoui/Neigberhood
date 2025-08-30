@@ -1,0 +1,35 @@
+{
+  "name": "neighborhood-hub",
+  "version": "1.0.0",
+  "description": "Neighborhood Community Hub - Modular Monolith with Next.js BFF and Express API",
+  "private": true,
+  "scripts": {
+    "prepare": "husky install",
+    "build": "turbo run build",
+    "dev": "turbo run dev --parallel",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "typecheck": "turbo run typecheck",
+    "clean": "turbo run clean",
+    "db:generate": "turbo run db:generate",
+    "db:push": "turbo run db:push",
+    "db:seed": "turbo run db:seed"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^18.4.3",
+    "@commitlint/config-conventional": "^18.4.3",
+    "@types/node": "^20.9.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.1.0",
+    "turbo": "^1.10.16",
+    "typescript": "^5.2.2"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "packageManager": "pnpm@9.6.0",
+  "dependencies": {
+    "mongodb": "^6.19.0"
+  }
+}
