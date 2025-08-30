@@ -5,7 +5,6 @@
     "rootDir": "./src",
     "paths": {
       "@/*": ["./src/*"],
-      "@/types/*": ["../../packages/types/src/*"],
       "@/configs/*": ["../../packages/configs/*"]
     }
   },

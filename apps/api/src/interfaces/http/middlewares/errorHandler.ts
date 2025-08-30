@@ -9,8 +9,9 @@ export function errorHandler(
   error: AppError,
   req: Request,
   res: Response,
-  next: NextFunction
+  _next: NextFunction
 ): void {
+  void _next;
   const statusCode = error.statusCode || 500;
   const message = error.message || 'Internal Server Error';
   const code = error.code || 'INTERNAL_ERROR';

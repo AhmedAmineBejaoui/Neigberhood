@@ -1,7 +1,7 @@
-import { createClient } from 'redis';
+import { createClient, type RedisClientType } from 'redis';
 import { config } from './config';
 
-export const redisClient = createClient({
+export const redisClient: RedisClientType = createClient({
   url: config.redis.url,
 });
 

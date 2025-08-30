@@ -34,8 +34,8 @@ export class GetPostsUseCase {
     return {
       posts: result.posts,
       hasMore: result.hasMore,
-      nextCursor: result.nextCursor,
-      total: result.total,
+      ...(result.nextCursor !== undefined && { nextCursor: result.nextCursor }),
+      ...(result.total !== undefined && { total: result.total }),
     };
   }
 }

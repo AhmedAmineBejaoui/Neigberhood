@@ -1,21 +1,22 @@
-import { Router } from 'express';
+import { Router, Request } from 'express';
 import { requireAuth } from '../middlewares/auth';
 import { validate } from '../middlewares/validation';
-import { createChatSessionSchema, chatMessageSchema } from '@neighborhood-hub/types';
-import { prisma } from '../../infrastructure/prisma';
+import { CreateChatSessionSchema, CreateChatMessageSchema } from '@neighborhood-hub/types';
+import { prisma } from '../../../infrastructure/prisma';
 import { AuthenticatedRequest } from '../middlewares/auth';
-import { config } from '../../infrastructure/config';
+import { config } from '../../../infrastructure/config';
 import crypto from 'crypto';
 
-const router = Router();
+const router: Router = Router();
 
 // POST /chat/sessions - Create a new chat session
-router.post('/sessions', requireAuth, validate(createChatSessionSchema), async (req: AuthenticatedRequest, res, next) => {
+router.post('/sessions', requireAuth, validate(CreateChatSessionSchema), async (req: Request, res, next) => {
   try {
+    const userReq = req as AuthenticatedRequest;
     const session = await prisma.chatSession.create({
       data: {
-        communityId: req.body.communityId,
-        userId: req.user.id,
+        communityId: userReq.body.communityId,
+        userId: userReq.user.sub,
         status: 'active',
         lastActivityAt: new Date(),
       },
@@ -28,9 +29,10 @@ router.post('/sessions', requireAuth, validate(createChatSessionSchema), async (
 });
 
 // POST /chat/messages - Send a message and forward to n8n
-router.post('/messages', requireAuth, validate(chatMessageSchema), async (req: AuthenticatedRequest, res, next) => {
+router.post('/messages', requireAuth, validate(CreateChatMessageSchema), async (req: Request, res, next) => {
   try {
-    const { sessionId, content } = req.body;
+    const userReq = req as AuthenticatedRequest;
+    const { sessionId, content } = userReq.body;
 
     // Verify session exists and user has access
     const session = await prisma.chatSession.findUnique({
@@ -48,7 +50,7 @@ router.post('/messages', requireAuth, validate(chatMessageSchema), async (req: A
     }
 
     // Check if user is member of the community
-    const membership = req.user.memberships.find(m => m.communityId === session.communityId);
+    const membership = userReq.user.memberships.find(m => m.communityId === session.communityId);
     if (!membership) {
       res.status(403).json({
         error: {
@@ -79,7 +81,7 @@ router.post('/messages', requireAuth, validate(chatMessageSchema), async (req: A
       sessionId,
       content,
       communityId: session.communityId,
-      userId: req.user.id,
+      userId: userReq.user.sub,
     };
 
     const signature = crypto
@@ -111,8 +113,9 @@ router.post('/messages', requireAuth, validate(chatMessageSchema), async (req: A
 });
 
 // GET /chat/sessions/:id/messages - Get chat messages
-router.get('/sessions/:id/messages', requireAuth, async (req: AuthenticatedRequest, res, next) => {
+router.get('/sessions/:id/messages', requireAuth, async (req: Request, res, next) => {
   try {
+    const userReq = req as AuthenticatedRequest;
     const { id } = req.params;
 
     // Verify session exists and user has access
@@ -131,7 +134,7 @@ router.get('/sessions/:id/messages', requireAuth, async (req: AuthenticatedReque
     }
 
     // Check if user is member of the community
-    const membership = req.user.memberships.find(m => m.communityId === session.communityId);
+    const membership = userReq.user.memberships.find(m => m.communityId === session.communityId);
     if (!membership) {
       res.status(403).json({
         error: {

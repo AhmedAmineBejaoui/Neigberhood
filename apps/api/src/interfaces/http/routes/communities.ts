@@ -1,10 +1,10 @@
 import { Router } from 'express';
 import { requireAuth } from '../middlewares/auth';
 import { validate } from '../middlewares/validation';
-import { CreateCommunitySchema, ApproveMemberSchema } from '@/types/schemas/community';
+import { CreateCommunitySchema, ApproveMemberSchema } from '@neighborhood-hub/types';
 import { CommunityController } from '../controllers/CommunityController';
 
-const router = Router();
+const router: Router = Router();
 const communityController = new CommunityController();
 
 // Get community by slug

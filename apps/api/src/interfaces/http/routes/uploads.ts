@@ -1,21 +1,21 @@
 import { Router } from 'express';
 import { requireAuth } from '../middlewares/auth';
-import { prisma } from '../../infrastructure/prisma';
-import { config } from '../../infrastructure/config';
+import { config } from '../../../infrastructure/config';
 import { GetObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { S3Client } from '@aws-sdk/client-s3';
 
-const router = Router();
+const router: Router = Router();
 
 const s3Client = new S3Client({
   region: config.s3.region,
-  endpoint: config.s3.endpoint,
   credentials: {
     accessKeyId: config.s3.accessKeyId,
     secretAccessKey: config.s3.secretAccessKey,
   },
-  ...(config.s3.endpoint && { forcePathStyle: true }),
+  ...(config.s3.endpoint
+    ? { endpoint: config.s3.endpoint, forcePathStyle: true }
+    : {}),
 });
 
 // POST /uploads/sign - Generate presigned URL for S3 upload

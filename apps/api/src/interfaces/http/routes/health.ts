@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import { prisma } from '../../infrastructure/prisma';
-import { redisClient } from '../../infrastructure/redis';
+import { prisma } from '../../../infrastructure/prisma';
+import { redisClient } from '../../../infrastructure/redis';
 
-const router = Router();
+const router: Router = Router();
 
 // GET /healthz - Health check endpoint
 router.get('/', async (req, res) => {

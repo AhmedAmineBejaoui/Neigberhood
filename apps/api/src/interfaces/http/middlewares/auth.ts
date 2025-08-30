@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { config } from '../../../config';
-import { JwtPayload } from '@/types/types/auth';
+import { JwtPayload } from '@neighborhood-hub/types';
 
 export interface AuthenticatedRequest extends Request {
   user: JwtPayload;

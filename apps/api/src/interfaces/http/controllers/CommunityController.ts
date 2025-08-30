@@ -35,10 +35,11 @@ export class CommunityController {
     }
   }
 
-  async create(req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
+  async create(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
+      const userReq = req as AuthenticatedRequest;
       // Check if user has admin rights
-      const isAdmin = req.user.memberships.some(m => m.role === 'ADMIN');
+      const isAdmin = userReq.user.memberships.some(m => m.role === 'ADMIN');
       if (!isAdmin) {
         res.status(403).json({
           error: {
@@ -50,7 +51,7 @@ export class CommunityController {
       }
 
       const community = await prisma.community.create({
-        data: req.body,
+        data: userReq.body,
       });
 
       res.status(201).json({ data: community });
@@ -83,13 +84,14 @@ export class CommunityController {
     }
   }
 
-  async approveMember(req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
+  async approveMember(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
+      const userReq = req as AuthenticatedRequest;
       const { id } = req.params;
-      const { userId, role } = req.body;
+      const { userId, role } = userReq.body;
 
       // Check if user has admin rights in this community
-      const userMembership = req.user.memberships.find(m => m.communityId === id);
+      const userMembership = userReq.user.memberships.find(m => m.communityId === id);
       if (!userMembership || userMembership.role !== 'ADMIN') {
         res.status(403).json({
           error: {
