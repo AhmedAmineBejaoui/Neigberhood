@@ -1,5 +1,5 @@
-import { PostRepository } from '../../domain/ports/PostRepository';
-import { CreatePostData, Post } from '../../domain/entities/Post';
+import { PostRepository } from "../../domain/ports/PostRepository";
+import { CreatePostData, Post } from "../../domain/entities/Post";
 
 export interface CreatePostRequest {
   dto: CreatePostData;
@@ -18,7 +18,7 @@ export class CreatePostUseCase {
 
     // Validate that the user is a member of the community
     // This would typically be done through a separate service or repository
-    
+
     const post = await this.postRepository.create({
       ...dto,
       authorId: userId,
